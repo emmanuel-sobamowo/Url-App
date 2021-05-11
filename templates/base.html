@@ -3,13 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script defer type="text/javascript" src="{{ url_for('static', filename='/index.js') }}" >
+ 
+</script>
+<title>Url shortener</title>
 </head>
 <body>
     <h1>Welcome to the URL shortener</h1>
-    <form>
-        <input type="search" placeholder="Enter a url" required>
-        <input type="button" value="submit" >
+    <form id="url-form" method='POST'>
+        <input type="search" placeholder="Enter a url" id="input-value" required>
+        <input type="button" value="submit">
     </form>
+    <section>
+        {% block content%}
+        {% endblock content %}
+    </section>
 </body>
+
 </html>
