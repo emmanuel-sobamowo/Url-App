@@ -1,13 +1,46 @@
-from flask import Flask, jsonify, request
+from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
 from flask_cors import CORS
 from hashids import Hashids
+import sqlite3
+hashids = Hashids()
+
+
 
 app = Flask(__name__)
 CORS(app)
 
-app.run(debug=True)
+app.config['SECRET_KEY'] = 'this should be a secret random string'
 
-@app.route('/') 
-def home(): 
-    return jsonify({})
+hashids = Hashids(min_length=5, salt=app.config['SECRET_KEY'])
+hashid = hashids.encode(8)
+print(hashid)
 
+def get_db_connection():
+    connection = sqlite3.connect('database.db')
+    connection.row_factory = sqlite3.Row
+    return connection
+
+
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    connection = get_db_connection()
+
+    if request.method == 'POST':
+        url = request.form['url']
+        if not url:
+            flash('The URL is required!')
+            return redirect(url_for('home'))
+        url_data = connection.execute('INSERT INTO url_db (original_url) VALUES (?)',
+                                (url,))
+        connection.commit()
+        connection.close()
+        url_id = url_data.lastrowid
+        hashid = hashids.encode(url_id)
+        short_url = request.host_url + hashid
+        return render_template('base.html', short_url=short_url)
+
+    return render_template('base.html')
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
