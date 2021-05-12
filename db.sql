@@ -2,8 +2,5 @@ DROP TABLE IF EXISTS url_db;
 
 CREATE TABLE url_db (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    original_url TEXT NOT NULL,
-    short_url TEXT NOT NULL,
-    clicks INTEGER NOT NULL DEFAULT 0
+    original_url TEXT,
 );
