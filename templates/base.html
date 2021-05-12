@@ -11,7 +11,8 @@
 <body>
     <h1>Welcome to the URL shortener</h1>
     <form id="url-form" method='POST'>
-        <input type="search" placeholder="Enter a url" id="input-value" required>
+        <label for="url">URL</label>
+        <input type="text" name="url" placeholder="Enter a url"  id="input-value" value="{{ request.form['url'] }}" required>
         <input type="button" value="submit">
     </form>
     <section>
