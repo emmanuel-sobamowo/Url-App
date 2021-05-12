@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1> Welcome to The URL-Shortener! </h1>
+    <form method="post">
+    <div class="url-form">
+        <label for="url">URL</label>
+        <input type="text" name="url" placeholder="Enter the URL" class="form-control"  value="{{ request.form['url'] }}" required></input>
+    </div>
+
+    <div class="url-form">
+        <button type="submit" >Submit</button>
+    </div>
+    </form>
+
+    {% if short_url %}
+    <hr>
+    <span>{{ short_url }}</span>
+    {% endif %}
+{% endblock %}
