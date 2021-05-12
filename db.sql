@@ -1,6 +1,0 @@
-DROP TABLE IF EXISTS url_db;
-
-CREATE TABLE url_db (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    original_url TEXT,
-);

@@ -5,9 +5,9 @@ import sqlite3
 
 
 def get_db_connection():
-    connection = sqlite3.connect('database.db')
-    connection.row_factory = sqlite3.Row
-    return connection
+    db = sqlite3.connect('database.db')
+    db.row_factory = sqlite3.Row
+    return db
 
 
 
@@ -24,7 +24,7 @@ hashids = Hashids(min_length=5, salt=app.config['SECRET_KEY'])
 
 @app.route('/', methods=('GET', 'POST'))
 def home():
-    connection = get_db_connection()
+    db = get_db_connection()
 
     if request.method == 'POST':
         url = request.form['url']
@@ -33,10 +33,10 @@ def home():
             flash('The URL is needed!')
             return redirect(url_for('home'))
 
-        url_data = connection.execute('INSERT INTO url_db (original_url) VALUES (?)',
+        url_data = db.execute('INSERT INTO urls (original_url) VALUES (?)',
                                 (url,))
-        connection.commit()
-        connection.close()
+        db.commit()
+        db.close()
 
         url_id = url_data.lastrowid
         hashid = hashids.encode(url_id)
